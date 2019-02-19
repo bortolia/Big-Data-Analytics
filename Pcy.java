@@ -1,5 +1,5 @@
 /*
- * A-Priori Algorithm -- Finding Frequent Pairs
+ * PCY Algorithm -- Finding Frequent Pairs
  * 
  * FIRST PASS:  When passing through the file, using a nested for loop and hash function, hash pairs
  * 				to buckets. This refinement from A-Priori uses wasted memory space from the first pass
