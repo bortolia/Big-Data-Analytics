@@ -1,1 +1,4 @@
 bortolia_project1.pdf
+*.class
+*.zip
+.DS_Store

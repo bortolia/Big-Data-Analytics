@@ -217,7 +217,7 @@ public class Multistage {
 				for(int i = 0; i < basket_length; i++){
 					for(int j = (i + 1); j < basket_length; j++){
 						
-						// checks if pairs map to a frequent bucket in bit vector, as well as if each item is a frequent item
+						// checks if pairs map to a frequent bucket in both bitVectors, as well as if each item is a frequent item
 						if(bitVector1[pcy_hash_function1(basket.elementAt(i),basket.elementAt(j))] == 1 && bitVector2[pcy_hash_function2(basket.elementAt(i),basket.elementAt(j))] == 1 && freq_items_array.contains(basket.get(i)) && freq_items_array.contains(basket.get(j))){
 							String pair = "{"+basket.get(i)+","+basket.get(j)+"}";
 //							System.out.println(pair); //DEBUG LINE
