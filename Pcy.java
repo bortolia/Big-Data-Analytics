@@ -48,12 +48,11 @@ public class Pcy {
 		final long startTime1 = System.currentTimeMillis();
 		
 		// FIRST PASS
-		// Get rid of threshold_percent? because you calculated support of frequent items outside of the function this time
 		bucketHashTable = bucket_hashing(fileName, itemCount, basketsToUse);
 		
 		// between first and second pass, making bitVector
-		int[] bitVector = new int[10000];
-		for(int i = 0; i <= bucketHashTable.size(); i++){
+		int[] bitVector = new int[88162];
+		for(int i = 0; i < bitVector.length; i++){
 			if(bucketHashTable.containsKey(i) && bucketHashTable.get(i) >= support)
 				bitVector[i] = 1;
 			else
@@ -61,6 +60,7 @@ public class Pcy {
 		}
 		
 		// list of frequent items
+		System.out.printf("ITEMS\tFREQUENCY\n");
 		itemCount.forEach((key, value)->{
 			if(value > support){
 				freq_items_array.add(key);
@@ -92,7 +92,7 @@ public class Pcy {
 		
 		
 		final long endTime = System.currentTimeMillis();
-		System.out.println("\nSupport: " + support);
+		System.out.println("\nSupport: " + (int)support);
 		System.out.println("Total execution time: " + (endTime - startTime1));
 		System.out.println("Baskets in dataset: "+ (int)basketsToUse);
 		
@@ -100,7 +100,7 @@ public class Pcy {
 	
 	// hash function used for buckets
 	public static int pcy_hash_function(int i, int j){ 
-		return (i * j) % 10000;
+		return (i * j) % 88162;
 	}
 	
 	// FIRST PASS
@@ -112,7 +112,7 @@ public class Pcy {
 		
 		while(br.ready()){
 			String line = br.readLine();
-			if(numBaskets++ > dataSetSize)
+			if(++numBaskets >= dataSetSize)
 				break;
 			StringTokenizer st = new StringTokenizer(line);
 			Vector<Integer> basket = new Vector<Integer>(); //vector for basket read
@@ -126,7 +126,7 @@ public class Pcy {
 			int basket_length = basket.size();
 			for(int i = 0; i < basket_length; i++){
 				for(int j = (i + 1); j < basket_length; j++){
-					int hashReturn = pcy_hash_function(i,j);
+					int hashReturn = pcy_hash_function(basket.elementAt(i),basket.elementAt(j));
 					bucketHashTable.put(hashReturn, bucketHashTable.containsKey(hashReturn) ? bucketHashTable.get(hashReturn) + 1 : 1);
 				}
 			}	
@@ -145,7 +145,7 @@ public class Pcy {
 		
 		while(br.ready()){
 			String line = br.readLine();
-			if(numBaskets++ > dataSetSize)
+			if(++numBaskets >= dataSetSize)
 				break;
 			StringTokenizer st = new StringTokenizer(line);
 			Vector<Integer> basket = new Vector<Integer>(); //vector for basket read in
@@ -160,7 +160,7 @@ public class Pcy {
 				for(int j = (i + 1); j < basket_length; j++){
 					
 					// checks if pairs map to a frequent bucket in bit vector, as well as if each item is a frequent item
-					if(bitVector[pcy_hash_function(i,j)] == 1 && freq_items_array.contains(basket.get(i)) && freq_items_array.contains(basket.get(j))){
+					if(bitVector[pcy_hash_function(basket.elementAt(i),basket.elementAt(j))] == 1 && freq_items_array.contains(basket.get(i)) && freq_items_array.contains(basket.get(j))){
 						String pair = "{"+basket.get(i)+","+basket.get(j)+"}";
 //						System.out.println(pair); //DEBUG LINE
 						freq_pair.put(pair, (freq_pair.containsKey(pair)) ? freq_pair.get(pair) + 1 : 1);

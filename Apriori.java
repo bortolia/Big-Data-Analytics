@@ -145,6 +145,6 @@ public class Apriori {
 		
 		br.close();
 		
-		System.out.println("\nSupport: " + support);
+		System.out.println("\nSupport: " + (int)support);
 	}
 }
